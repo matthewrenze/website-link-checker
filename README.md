@@ -13,7 +13,7 @@
 * Next each link on the page is output indicting whether it passed or failed.
 * Then the next page on the website is listed and so on.
 
-If full logging is enabled, then both all links will be displayed.  
+If full logging is enabled, then all links will be displayed.  
 If full logging is disabled, then only broken links will be displayed.
 
 *Sample Output:*  

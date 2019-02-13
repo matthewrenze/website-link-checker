@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using AutoMoq;
 using Moq;
 using NUnit.Framework;
 using WebsiteLinkChecker.Anchors;
 using WebsiteLinkChecker.HtmlDocumentWrappers;
+using WebsiteLinkChecker.Logs;
 using WebsiteLinkChecker.WebClientWrappers;
 using WebsiteLinkChecker.Websites;
 
@@ -63,6 +65,21 @@ namespace WebsiteLinkChecker.PageGetters
                 .Returns(false);
 
             _getter = _mocker.Create<PageGetter>();
+        }
+
+        [Test]
+        public void TestGetPagesShouldFailSafely()
+        {
+            var ex = new WebException();
+
+            _mocker.GetMock<IWebClientWrapper>()
+                .Setup(p => p.DownloadString(Url))
+                .Throws(ex);
+
+            _getter.GetPages(Url);
+
+            _mocker.GetMock<ILog>()
+                .Verify(p => p.LogFail(Url, ex));
         }
 
         [Test]

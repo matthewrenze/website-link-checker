@@ -32,10 +32,13 @@ namespace WebsiteLinkChecker
                 && (args[1] == "-f" 
                     || args[1] == "--full");
 
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
+
             var getter = new PageGetter(
                 new WebClientWrapper(), 
                 new HtmlDocumentWrapper(),
-                new Website(url));
+                new Website(url),
+                new Log(enableFullLogging));
 
             var pages = getter.GetPages(url);
 
